@@ -175,6 +175,16 @@ Could use any of these accessors for the constructor param variable shortcut
 JS Doesn't actually support private, it's just a TS thing. Useful to express
 intent in your code though.
 
-- 5 min mark -
+Since JS can't natively have private members, the trend is to use an underscore
+as a prefix to a property that should only be used by the component itself, and
+not by anyone else. Ex: `_lastId` ( If you're referencing something with an 
+underscore, you're probably doing something wrong ).
 
 ### Implementing interfaces
+
+Interfaces exist primarily to be attached to other classes
+
+Works as you would expect. Everything from the interface needs to be implemented.
+
+Can implement multiple interfaces by just separating them with a comma
+`class TodoService implements ITodoService, IIdGenerator { ... `
