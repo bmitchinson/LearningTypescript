@@ -141,6 +141,17 @@ Now just like the previous example with CommonJS, `Model.Todo` is available.
 Instead of using `Todo` through `Model.Todo` though, it can be assigned an alias
 upon import: `import { Todo as TodoTask, TodoState } from './model'`
 
+(From chapter 8:
+
+
+Default module: used when there's really only a need for one export:
+`export default class TodoListComponent` -> `import nameOfDefaultExport from './TodoListComponent'`
+
+Although you can only have one default export, you can combine it with other 
+exports, resulting in an import statement like: `import TodoService, { ITodoService } from './TodoListComponent'`.
+
+)
+
 This lets you import selectively as well, (reducing code size in the end!). In
 the above example, not everything from `./model` is imported, as it's not all 
 needed.
