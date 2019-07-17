@@ -109,8 +109,60 @@ Whichever you use, TS generates the same code, recommend to use ECMA ("UTP")
 
 ### Switching from internal to external modules
 
-### Importing modules using CommonJS syntax
+It's a bit redundant to apply internal namespaces to external modules, since
+they're already modularized by the file itself.
+
+in tsconfig you can specify the module setting, but you're really free to 
+use any type.
+
+### Importing modules using CommonJS syntax (aka 'require' syntax)
+
+`import Model = require('/.model')`: This brings everything that's been exported
+in `/.model` into the `Model` object. No file extension needed. 
+(Nothing about defaults yet)
+
+You can't assign an alias to parts of the `Model` import, aside from manual 
+reassignment in sperate lines.
+
+Ex:
+```
+import Model = require('/.model')
+import Todo = Model.Todo;
+```
+
+An alias *can* be assigned immediately upon import with ECMA15 syntax:
 
 ### Importing modules using ECMAScript 15 syntax
 
+Also uses import by it's relative path and name: `import * as Model from './model'`;
+
+Now just like the previous example with CommonJS, `Model.Todo` is available.
+
+Instead of using `Todo` through `Model.Todo` though, it can be assigned an alias
+upon import: `import { Todo as TodoTask, TodoState } from './model'`
+
+This lets you import selectively as well, (reducing code size in the end!). In
+the above example, not everything from `./model` is imported, as it's not all 
+needed.
+
+You could also do simply `import ./Example`.
+> Really, the only scenario you'd want to do this is when you have a script that modifies the environment in some way, that you're dependent on. In those cases, the import statement is still relevant, because you do depend on that module getting loaded. You're just not relying on any particular exports that the module provides.
+
 ### Loading external modules
+
+Within TS, internal and both types of external get transpiled down to one constant
+module type anyway (set in `tsconfig`).
+
+Since ECMA15 Syntax isn't "widely supported" yet, and the standard definition for
+loading modules (loader specification) is under review, we need a Module Loader.
+
+There's a module config option for modules in TS for every major module loader.
+Choosing what goes in this config option relies on your loader.
+
+`System.js` attempts to implement the proposed ECMAScript specification.
+
+Before using a module loader, you'd have to import each js file in a script tag
+within your HTML. Now though, you can use on import, for your loader.
+
+Example of [how he uses SystemJS](https://www.linkedin.com/learning/typescript-essential-training/loading-external-modules?u=42459020) 
+through a CDN import within HTML.
